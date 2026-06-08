@@ -1,601 +1,610 @@
-# 🐙 GUÍA COMPLETA DE GITHUB — Big Data DD283
-## Paso a Paso: Docente + Estudiantes
+# GUIA COMPLETA DE GITHUB — Big Data DD283
+## Universidad Autónoma del Perú | 2026-1
+
+> **Docente**: RubenCarty | **Repo del curso**: github.com/RubenCarty/bigdata-ua-2026-1
 
 ---
 
-# PARTE 1 — EL DOCENTE CREA EL REPOSITORIO BASE
+## ARQUITECTURA DEL CURSO EN GITHUB
 
-## Paso 1: Crear la cuenta y el repositorio en GitHub
-
-```bash
-# 1. Ir a github.com → Sign Up (si no tienes cuenta)
-# 2. Crear repositorio:
-#    - Name: bigdata-ua-2026-1
-#    - Description: "Curso Big Data DD283 - Universidad Autónoma del Perú - 2026-1"
-#    - Visibility: PUBLIC (para que estudiantes puedan verlo sin login)
-#    - ✅ Add README
-#    - ✅ Add .gitignore → Python
-#    - License: MIT
+```
+REPO DEL CURSO (actividades individuales)          REPOS DE PROYECTOS (1 por grupo)
+github.com/RubenCarty/bigdata-ua-2026-1            github.com/lider-grupo/nombre-proyecto
+        │                                                    │
+        │ Fork (cada estudiante, 1 vez)                      │ Colaboradores (todos del grupo)
+        ▼                                                    ▼
+github.com/alumno/bigdata-ua-2026-1               Cada integrante clona y trabaja
+        │                                          en ramas dentro del mismo repo
+        │ Pull Request cada semana
+        ▼
+El docente revisa, da feedback y hace merge
 ```
 
-## Paso 2: Clonar y subir todos los archivos preparados
+**Resumen de la separación:**
+- `bigdata-ua-2026-1` → actividades individuales (labs + guías semanales)
+- Un repo aparte por cada grupo → desarrollo del proyecto semestral
+
+---
+
+# SECCION A — GUIA DEL DOCENTE
+
+## A1. Publicar materiales nuevos cada semana
+
+Cuando preparas los materiales de una nueva semana (guías, notebooks, slides), usa estos comandos:
 
 ```bash
-# En tu laptop (docente):
-git clone https://github.com/TU_USUARIO_DOCENTE/bigdata-ua-2026-1.git
-cd bigdata-ua-2026-1
+# 1. Posicionarte en el repo del curso
+cd "/Users/rubenquispellacctarimay/My Drive/U. Autónoma 2026-1/Big Data/GitHub_Repo/bigdata-ua-2026-1"
+# Para qué: Git solo funciona desde dentro de la carpeta del repositorio
 
-# Copiar todos los archivos de este repositorio preparado:
-# (ya tienes la estructura lista en tu Google Drive)
-cp -r /ruta/a/GitHub_Repo/bigdata-ua-2026-1/* .
+# 2. Ver qué archivos cambiaron o agregaste
+git status
+# Para qué: muestra en rojo los archivos nuevos/modificados aún no guardados en Git
+# Si dice "nothing to commit" → Git no detecta cambios (carpetas vacías o archivos ya guardados)
 
-# Subir al repositorio:
+# 3. Preparar todos los cambios para guardar
 git add .
-git commit -m "chore: estructura inicial del curso Big Data 2026-1"
+# Para qué: selecciona TODOS los archivos modificados/nuevos para el próximo guardado
+# Alternativa si quieres ser específico: git add semana_02/
+
+# 4. Guardar con mensaje descriptivo
+git commit -m "feat: agrego materiales semana 2 - Hadoop y PySpark"
+# Para qué: crea un "checkpoint" permanente en el historial de Git
+# El mensaje debe decir QUÉ agregaste para que los estudiantes entiendan
+
+# 5. Subir a GitHub (publicar para que los estudiantes lo vean)
 git push origin main
-
-# ✅ Verificar que todo subió en: github.com/TU_USUARIO/bigdata-ua-2026-1
+# Para qué: envía tus commits guardados localmente al servidor de GitHub
+# origin = tu repositorio en GitHub
+# main = la rama principal del curso
 ```
 
-## Paso 3: Configurar protección de la rama main
-
-```
-GitHub → Repositorio → Settings → Branches → Add rule
-  - Branch name pattern: main
-  - ✅ Require a pull request before merging
-  - ✅ Require review from Code Owners
-  - ✅ Do not allow bypassing the above settings
-→ Guardar
-```
-
-> **¿Por qué?** Esto impide que los estudiantes committeen directamente a main.
-> Deben hacer PR, y tú revisas antes de mergear.
-
-## Paso 4: Crear GitHub Classroom (OPCIONAL pero recomendado)
-
-```
-1. Ir a: classroom.github.com
-2. New classroom → Link to this organization
-3. New assignment:
-   - Title: "Big Data 2026-1 — Semana {N}"
-   - Repository visibility: Private (cada estudiante tiene su repo)
-   - Template repository: bigdata-ua-2026-1
-   - Enable feedback pull requests: ✅
-4. Copiar el link de invitación → compartir con estudiantes
-```
-
-> **Con GitHub Classroom**: Cada estudiante obtiene automáticamente una copia
-> del repositorio template en su cuenta. Tú puedes ver todos los repos desde
-> el dashboard de Classroom.
+**Regla de oro:** si ves `Everything up-to-date` en el push, los cambios ya estaban subidos. Si ves el porcentaje de transferencia, se está subiendo.
 
 ---
 
-# PARTE 2 — LOS ESTUDIANTES CONFIGURAN SU REPOSITORIO
+## A2. Traer cambios del remoto a tu local
 
-GUIA DEFINITIVA — Estudiantes (paso a paso completo)
-FASE 1: Configuración inicial (solo UNA VEZ en todo el semestre)
-En la web — github.com:
+Necesitas hacer esto cuando hiciste un merge de un PR de estudiante desde GitHub web, o cuando trabajas desde otra computadora:
 
+```bash
+# Descargar los commits más recientes de GitHub a tu laptop
+git pull origin main
+# Para qué: sincroniza tu copia local con lo que está en GitHub
+# Siempre hacer esto ANTES de empezar a trabajar para evitar conflictos
+```
 
+---
+
+## A3. Revisar y calificar las entregas de estudiantes
+
+```
+1. Ir a: github.com/RubenCarty/bigdata-ua-2026-1 → tab "Pull requests"
+2. Verás todos los PRs pendientes de los estudiantes
+3. Clic en un PR para abrirlo
+4. Tab "Files changed" → ver exactamente qué entregó el estudiante
+5. Para comentar una línea específica: clic en el "+" que aparece al pasar el cursor
+6. Para dar feedback general: tab "Conversation" → dejar comentario
+
+Para calificar:
+  - "Review changes" → Approve    → trabajo aprobado (nota OK)
+  - "Review changes" → Request changes → pedir correcciones antes de nota
+  - "Merge pull request" → incorporar la entrega al repo oficial del curso
+```
+
+**Tipos de comentarios recomendados:**
+```
+✅ Excelente! El análisis de las 5 V's está correcto y bien justificado.
+⚠️ La reflexión es muy corta. Amplía la conexión con tu empresa actual.
+💡 Tip: df.groupby('col').agg(['sum','mean']) es más eficiente que tu loop.
+❌ El notebook tiene errores en celda 7. Corrígelo y haz push nuevamente.
+```
+
+---
+
+## A4. Configurar protección de main (hacer una vez)
+
+```
+GitHub → tu repo → Settings → Branches → Add branch ruleset
+  - Branch name: main
+  - Require a pull request before merging: ON
+  - Required approvals: 1
+→ Guardar
+
+Para qué: impide que estudiantes committeen directo a main.
+Deben pasar por PR para que tú puedas revisar.
+```
+
+---
+
+# SECCION B — GUIA DEL ESTUDIANTE (PASO A PASO)
+
+## FASE 0: Configuración inicial (solo UNA VEZ en todo el semestre)
+
+### Paso 0.1 — Crear cuenta en GitHub
+
+```
+1. Ir a: github.com → Sign Up
+2. Nombre de usuario: usar apellido + nombre (ejemplo: lopez-maria)
+3. Verificar email
+```
+
+### Paso 0.2 — Hacer Fork del repo del docente
+
+```
 1. Ir a: github.com/RubenCarty/bigdata-ua-2026-1
 2. Clic en el botón "Fork" (arriba a la derecha)
-3. Clic "Create fork"
-   → Ahora tienen su propia copia: github.com/SU-USUARIO/bigdata-ua-2026-1
-En su laptop — Terminal:
+3. Dejar todo como está → clic "Create fork"
+4. Resultado: ahora tienes TU PROPIA COPIA en:
+   github.com/TU-USUARIO/bigdata-ua-2026-1
 
+Para qué: Fork crea una copia del repo del docente en tu cuenta.
+Tú trabajas en tu copia y envías tus tareas al docente vía Pull Request.
+```
 
-# Paso 1: Clonar SU fork a su laptop
-git clone https://github.com/SU-USUARIO/bigdata-ua-2026-1.git
-# ¿Para qué? Descarga todos los archivos del repo a su computadora
+### Paso 0.3 — Instalar Git en tu laptop
 
-# Paso 2: Entrar a la carpeta
+```
+Windows: descargar desde git-scm.com → instalar con opciones por defecto
+Mac: abrir Terminal → escribir: git --version
+     Si no está instalado, Mac pregunta si instalarlo → aceptar
+Linux: sudo apt install git
+```
+
+### Paso 0.4 — Clonar tu fork a tu laptop
+
+Abre una terminal (en Mac: busca "Terminal"; en Windows: busca "Git Bash"):
+
+```bash
+# Clonar TU fork (no el repo del docente, sino TU copia)
+git clone https://github.com/TU-USUARIO/bigdata-ua-2026-1.git
+# Para qué: descarga todos los archivos del repo a tu computadora
+# Reemplaza TU-USUARIO con tu nombre de usuario de GitHub
+
+# Entrar a la carpeta descargada
 cd bigdata-ua-2026-1
-# ¿Para qué? Posicionarse dentro del repo para que Git funcione
+# Para qué: entrar a la carpeta. Git solo funciona desde adentro del repo
+```
 
-# Paso 3: Conectar con el repo del DOCENTE
+### Paso 0.5 — Conectar con el repo del docente
+
+```bash
+# Agregar el repo del docente como fuente de actualizaciones
 git remote add upstream https://github.com/RubenCarty/bigdata-ua-2026-1.git
-# ¿Para qué? Crear un "canal" para recibir actualizaciones del docente cada semana
+# Para qué: crea un "canal" llamado upstream que apunta al repo original del docente
+# Así podrás descargar los materiales nuevos que el docente publique cada semana
 
-# Paso 4: Verificar que quedó bien
+# Verificar que quedó bien configurado
 git remote -v
-# Debe mostrar:
-# origin   → su fork (donde ellos suben sus tareas)
-# upstream → repo del docente (de donde descargan materiales nuevos)
+# Debe mostrar exactamente esto:
+# origin    https://github.com/TU-USUARIO/bigdata-ua-2026-1.git (fetch)
+# origin    https://github.com/TU-USUARIO/bigdata-ua-2026-1.git (push)
+# upstream  https://github.com/RubenCarty/bigdata-ua-2026-1.git (fetch)
+# upstream  https://github.com/RubenCarty/bigdata-ua-2026-1.git (push)
+#
+# origin   = tu fork (donde subes TU trabajo)
+# upstream = repo del docente (de donde descargas materiales nuevos)
+```
 
-# Paso 5: Configurar su identidad
-git config user.name "Juan Perez"
-git config user.email "juan.perez@gmail.com"
-FASE 2: Inicio de cada semana (descargar material nuevo del docente)
+### Paso 0.6 — Configurar tu identidad en Git
 
+```bash
+git config user.name "Juan Lopez"
+git config user.email "tu.email@gmail.com"
+# Para qué: cada commit quedará firmado con tu nombre. El docente sabrá quién hizo qué.
+```
+
+---
+
+## FASE 1: Inicio de cada semana (SIEMPRE hacer primero)
+
+Al inicio de cada semana de clases, antes de empezar a trabajar:
+
+```bash
 # Volver a la rama principal
 git checkout main
-# ¿Para qué? Asegurarse de estar en la base antes de sincronizar
+# Para qué: asegurarte de estar en la base correcta antes de sincronizar
 
-# Descargar los materiales nuevos del docente
+# Descargar los materiales nuevos que publicó el docente
 git pull upstream main
-# ¿Para qué? Traer a su laptop todo lo que el docente publicó
-# (guías de trabajo, labs, slides de la semana)
+# Para qué: trae a tu laptop las guías de trabajo, notebooks y slides de la semana nueva
+# Si ves "Already up to date" → el docente no publicó nada nuevo aún
 
-# Actualizar también su fork en GitHub
+# Actualizar también tu copia en GitHub
 git push origin main
-# ¿Para qué? Su copia en GitHub también queda actualizada
-FASE 3: Trabajar y entregar la tarea
+# Para qué: tu fork en GitHub también queda actualizado con los materiales nuevos
+```
 
-# Crear su rama personal para la semana
+---
+
+## FASE 2: Trabajar en las actividades de la semana
+
+### Paso 2.1 — Crear tu rama personal
+
+```bash
+# Crear tu rama de trabajo para esta semana
 git checkout -b semana-01-lopez-maria
-# ¿Para qué? Crear una "línea de trabajo" solo para ellos
-# FORMATO: semana-NN-apellido-nombre (sin espacios, sin tildes)
-# NUNCA trabajar directamente en main
+# Para qué: crea una "línea de trabajo paralela" solo para ti
+# NUNCA trabajes directamente en main → siempre crear una rama nueva
 
-# --- Aquí el estudiante trabaja ---
-# Abre Jupyter, completa el lab, responde las preguntas teóricas
-# Guarda sus archivos con el formato correcto:
-#   semana_01/Solucion_S1/lopez_maria/GUIA_TRABAJO_S1_lopez.md
-#   semana_01/Solucion_S1/lopez_maria/LABORATORIO_S1_lopez.ipynb
+# FORMATO OBLIGATORIO: semana-NN-apellido-nombre
+# Ejemplos correctos:
+#   semana-01-garcia-pedro
+#   semana-02-mamani-julia
+#   semana-03-torres-carlos
+# Sin espacios, sin tildes, todo en minúsculas
 
-# Ver qué archivos modificó
-git status
-
-# Agregar sus archivos de solución
-git add semana_01/Solucion_S1/lopez_maria/
-# ¿Para qué? Preparar SOLO sus archivos (no tocar los de otros)
-
-# Guardar con mensaje claro
-git commit -m "[S01] entrego guia de trabajo y lab completado - Lopez Maria"
-# ¿Para qué? Registrar en el historial que entregó su tarea
-
-# Subir su rama a GitHub (a su fork)
-git push origin semana-01-lopez-maria
-# ¿Para qué? Sus archivos ahora están en internet, en su fork personal
-FASE 4: Crear el Pull Request (la "entrega oficial")
-
-1. Ir a: github.com/SU-USUARIO/bigdata-ua-2026-1
-2. Aparece banner amarillo: "Compare & pull request" → clic
-3. Verificar que dice:
-   base repository: RubenCarty/bigdata-ua-2026-1   base: main    ← repo del docente
-   head repository: SU-USUARIO/bigdata-ua-2026-1   compare: semana-01-lopez-maria
-4. Completar el formulario automático:
-   - Nombre completo
-   - Semana entregada
-   - Qué aprendió
-   - Conexión con su trabajo actual
-5. Clic "Create pull request"
-
-FASE 5: Docente revisa y apruebas 
-
-github.com/RubenCarty/bigdata-ua-2026-1 → Pull requests
-Acción	Cómo
-Ver la tarea	Tab "Files changed"
-Comentar líneas	Clic en el "+" de cada línea
-Aprobar	"Review changes" → Approve
-Pedir corrección	"Review changes" → Request changes
-Hacer merge (aprobar entrega final)	"Merge pull request"
-Resumen visual del flujo completo
-
-                    
----
-
-# PARTE 3 — FLUJO SEMANAL (repetir cada semana)
-
-## CADA SEMANA — Flujo de trabajo
-
-```
-┌────────────────────────────────────────────────────────────┐
-│                 FLUJO SEMANAL DE TRABAJO                    │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  1. SINCRONIZAR con el docente                             │
-│     git pull upstream main                                  │
-│                                                            │
-│  2. CREAR RAMA para esta semana                            │
-│     git checkout -b semana-N-tu-nombre                      │
-│                                                            │
-│  3. TRABAJAR en el laboratorio                             │
-│     (editar notebooks, ejecutar código)                     │
-│                                                            │
-│  4. GUARDAR AVANCE (cada vez que terminas algo)            │
-│     git add .                                              │
-│     git commit -m "[S0N] descripción - Tu Nombre"          │
-│                                                            │
-│  5. SUBIR al repositorio en GitHub                         │
-│     git push origin semana-N-tu-nombre                      │
-│                                                            │
-│  6. CREAR PULL REQUEST en GitHub                           │
-│     (GitHub detecta la rama y sugiere crear PR)            │
-│                                                            │
-│  7. ESPERAR FEEDBACK del docente                           │
-│     (el docente deja comentarios en el PR)                  │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
-```
-
----
-
-## PASO A PASO DETALLADO — Semana 1 (Lab S1)
-
-### Paso 1: Sincronizar con el repositorio del docente
-
-```bash
-# ¡Siempre hacer esto PRIMERO al comenzar una nueva semana!
-git checkout main              # Asegurarte de estar en main
-git pull upstream main         # Traer cambios del docente
-git push origin main           # Actualizar tu fork en GitHub
-
-echo "✅ Repo sincronizado con los materiales del docente"
-```
-
-### Paso 2: Crear tu rama para la semana
-
-```bash
-# Nomenclatura: semana-N-apellido (sin acentos, sin espacios)
-git checkout -b semana-01-quispe
-
-# Verificar que estás en la nueva rama
+# Verificar que estás en tu nueva rama
 git branch
-# Debe mostrar: * semana-01-quispe
+# El asterisco (*) indica la rama activa
+# * semana-01-lopez-maria   ← correcto
 ```
 
-### Paso 3: Trabajar en el laboratorio
+### Paso 2.2 — Completar las actividades
+
+```
+Actividades de cada semana:
+1. GUIA DE TRABAJO: responder las preguntas teóricas (archivo .md)
+2. GUIA DE LABORATORIO: ejecutar el notebook completo (archivo .ipynb)
+
+Dónde guardar tus respuestas:
+semana_01/Solucion_S1/lopez_maria/GUIA_TRABAJO_S1_lopez.md
+semana_01/Solucion_S1/lopez_maria/LABORATORIO_S1_lopez.ipynb
+
+Reemplaza "lopez_maria" con tu apellido_nombre (sin espacios, sin tildes)
+```
+
+### Paso 2.3 — Guardar tu progreso (hacer varias veces mientras trabajas)
 
 ```bash
-# Abrir Jupyter Lab
-jupyter lab
+# Ver qué archivos modificaste
+git status
+# Para qué: muestra en rojo los archivos modificados que aún no guardaste en Git
 
-# O abrir el notebook directamente
-jupyter notebook semana_01/notebooks/lab_s1_estudiante.ipynb
+# Agregar tus archivos
+git add semana_01/Solucion_S1/lopez_maria/
+# Para qué: selecciona TUS archivos para el próximo guardado
+# Usa tu carpeta específica para no afectar los archivos de otros
 
-# Trabajar en el notebook:
-# - Ejecutar todas las celdas (Shift+Enter)
-# - Completar donde dice "📝 TU CÓDIGO AQUÍ"
-# - Escribir la reflexión final
-# - Guardar el notebook con outputs
+# Guardar con mensaje descriptivo
+git commit -m "[S01] guia de trabajo y lab completados - Lopez Maria"
+# Para qué: crea un punto de guardado permanente con tu mensaje
+# FORMATO: [S0N] descripcion - Apellido Nombre
 ```
 
-### Paso 4: Hacer commits mientras trabajas
+### Paso 2.4 — Subir tu trabajo a GitHub
 
 ```bash
-# Guardar progreso después de cada parte completada:
-
-# Después de terminar Parte 1:
-git add semana_01/notebooks/lab_s1_estudiante.ipynb
-git commit -m "[S01] Parte 1 completada: análisis datos estructurados - Quispe"
-
-# Después de terminar el lab completo:
-git add .
-git commit -m "[S01] Lab S1 completo: tipos de datos + arquitectura - Quispe"
-
-# Ver historial de commits
-git log --oneline
+# Subir tu rama con tu trabajo a tu fork en GitHub
+git push origin semana-01-lopez-maria
+# Para qué: sube tus commits al servidor de GitHub
+# origin = tu fork personal
+# semana-01-lopez-maria = tu rama con tu trabajo
 ```
 
-### Paso 5: Subir a GitHub
+---
 
-```bash
-git push origin semana-01-quispe
-```
+## FASE 3: Crear el Pull Request (la entrega oficial)
 
-### Paso 6: Crear el Pull Request
+Esta es tu entrega formal — el docente la ve y califica aquí:
 
 ```
-1. Ir a: github.com/TU_USUARIO/bigdata-ua-2026-1
-2. GitHub muestra un banner: "semana-01-quispe had recent pushes"
-3. Clic en "Compare & pull request"
-4. Completar el formulario:
-   
-   Title: [S01] Lab Semana 1 - Juan Quispe
-   
-   Base repository: [DOCENTE]/bigdata-ua-2026-1  ← hacia el docente
-   Base: main
-   Head repository: TU_USUARIO/bigdata-ua-2026-1
-   Compare: semana-01-quispe
-   
-5. Completar el template del PR:
+1. Ir a: github.com/TU-USUARIO/bigdata-ua-2026-1
+2. Aparece un banner amarillo: "semana-01-lopez-maria had recent pushes"
+   → Clic en "Compare & pull request"
+
+3. VERIFICAR que apunta al lugar correcto:
+   base repository: RubenCarty/bigdata-ua-2026-1    base: main    ← repo del DOCENTE
+   head repository: TU-USUARIO/bigdata-ua-2026-1    compare: semana-01-lopez-maria
+
+4. Título del PR: [S01] Entrega Lab Semana 1 - Lopez Maria
+
+5. Completar el formulario automático:
    - Nombre completo
-   - Grupo de proyecto
-   - ✅ Checklist de entregables
-   - Reflexión sobre qué aprendí
-   
-6. Clic: "Create Pull Request"
-7. Copiar el link del PR y compartirlo con el docente
+   - Semana que entregas
+   - Qué aprendiste
+   - Conexión con tu trabajo actual en empresa
+   - Dificultades que tuviste
+   - Preguntas para el docente
+
+6. Clic: "Create pull request"
+
+7. Copiar el link del PR y pegarlo en el aula virtual / WhatsApp del curso
 ```
 
 ---
 
-## SEMANA 2 en adelante — Flujo simplificado
+## FASE 4: Responder al feedback del docente
+
+El docente puede pedir correcciones. Si eso pasa:
 
 ```bash
-# Al inicio de cada semana:
+# 1. Leer los comentarios del docente en GitHub
+
+# 2. Hacer las correcciones en tu laptop
+
+# 3. Guardar y subir (el PR se actualiza automáticamente)
+git add semana_01/Solucion_S1/lopez_maria/
+git commit -m "[S01] correcciones según feedback del docente - Lopez Maria"
+git push origin semana-01-lopez-maria
+# El PR en GitHub se actualiza solo — no necesitas crear uno nuevo
+```
+
+---
+
+## RESUMEN SEMANAL — Los 6 comandos de cada semana
+
+```bash
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# INICIO DE SEMANA (sincronizar materiales del docente)
 git checkout main
-git pull upstream main          # Sincronizar materiales del docente
+git pull upstream main
 git push origin main
-git checkout -b semana-02-quispe
 
-# Trabajar...
+# CREAR TU RAMA
+git checkout -b semana-NN-apellido-nombre
 
-# Al finalizar:
-git add .
-git commit -m "[S02] Lab S2: WordCount PySpark + Hadoop - Quispe"
-git push origin semana-02-quispe
-# Crear PR en GitHub
+# TRABAJAR... completar guía y lab
+
+# GUARDAR Y SUBIR
+git add semana_0N/Solucion_SN/apellido_nombre/
+git commit -m "[S0N] actividades completas - Apellido Nombre"
+git push origin semana-NN-apellido-nombre
+# → Ir a GitHub → crear Pull Request
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ---
 
-# PARTE 4 — EL DOCENTE REVISA LOS PULL REQUESTS
+# SECCION C — PROYECTO GRUPAL (Semanas 1-8)
 
-## Cómo revisar un PR de estudiante
+## Buena práctica: repos SEPARADOS por grupo
+
+El repo `bigdata-ua-2026-1` es SOLO para actividades individuales semanales.
+Cada grupo de proyecto crea su PROPIO repositorio separado.
+
+**Por qué separado:**
+- El repo del curso no se mezcla con código de proyectos
+- El grupo tiene control total de su repo
+- Fácil de gestionar permisos (todos son colaboradores directos)
+- El docente entra como colaborador o revisa el repo público
+
+---
+
+## C1. El líder del grupo crea el repo del proyecto (solo una vez)
 
 ```
-1. Ir a: github.com/TU_USUARIO/bigdata-ua-2026-1 → Pull Requests
-2. Seleccionar el PR del estudiante
-3. Tab "Files changed" → ver todos los cambios
-4. Dejar comentarios inline:
-   - Clic en el "+" al lado de una línea
-   - Escribir el feedback específico
-5. Tab "Review changes":
-   - Comment: feedback sin aprobar/rechazar
-   - Approve: trabajo correcto ✅
-   - Request changes: hay que corregir ❌
-```
+1. Ir a github.com → clic en "+" (arriba) → "New repository"
+2. Configurar:
+   - Repository name: bigdata-ua-[nombre-proyecto]-grupo[N]
+     Ejemplos: bigdata-ua-fraude-bancario-grupo1
+               bigdata-ua-churn-telecom-grupo2
+               bigdata-ua-trafico-lima-grupo3
+   - Description: "Proyecto Big Data: [nombre] — DD283 UA Perú 2026-1"
+   - Visibility: Public (para que el docente pueda verlo sin invitación)
+   - Add a README file: YES
+3. Clic "Create repository"
 
-## Tipos de comentarios de feedback
-
-```markdown
-# Feedback positivo:
-✅ Excelente análisis! Las 5 V's están bien identificadas para tu proyecto.
-
-# Feedback de mejora:
-⚠️ La reflexión es muy corta. Necesito ver la conexión con tu empresa actual.
-Por favor expande la celda de reflexión con al menos 3 oraciones por pregunta.
-
-# Feedback técnico:
-💡 Hay una forma más eficiente de hacer este cálculo con Pandas:
-   df.groupby('categoria')['monto'].agg(['sum', 'mean', 'count'])
-   Esto es más Pythónico que el loop que usaste.
-
-# Error crítico:
-❌ Tu notebook tiene errores de ejecución en las celdas 7 y 8.
-   Necesito ver el notebook ejecutado completamente antes de dar feedback.
-   Por favor corrige y pushea de nuevo.
+4. Invitar a los compañeros del grupo:
+   Settings → Collaborators → Add people → buscar usuario de GitHub de cada integrante
+   → cada integrante acepta la invitación por email
 ```
 
 ---
 
-# PARTE 5 — PROYECTO GRUPAL EN GITHUB
-
-## Crear el repositorio del proyecto del grupo
+## C2. Cada integrante configura el repo del proyecto (una vez)
 
 ```bash
-# El líder del grupo crea un NUEVO repositorio:
-# github.com → New repository
-# Name: bigdata-ua-2026-1-[nombre-proyecto]
-# Description: "Proyecto Big Data: [descripción]"
-# Visibility: Public
-# ✅ Add README
+# Clonar el repo del proyecto (NO hacer fork, clonar directo)
+git clone https://github.com/LIDER-GRUPO/bigdata-ua-fraude-bancario-grupo1.git
+cd bigdata-ua-fraude-bancario-grupo1
 
-# Invitar a los compañeros como colaboradores:
-# Settings → Collaborators → Add people → (username de cada integrante)
+# Configurar identidad (si no lo hiciste ya)
+git config user.name "Tu Nombre"
+git config user.email "tu@email.com"
 ```
 
-## Estructura del repo del proyecto
+---
+
+## C3. Flujo de trabajo del grupo cada semana
+
+Cada integrante trabaja en su propia rama dentro del repo del proyecto:
+
+```bash
+# Crear tu rama para la parte que te corresponde
+git checkout -b feature/ingesta-datos-lopez
+git checkout -b feature/modelo-ml-garcia
+git checkout -b feature/dashboard-torres
+git checkout -b feature/mongodb-mamani
+
+# Trabajar en tu parte del proyecto...
+
+# Guardar y subir
+git add .
+git commit -m "feat: implementar pipeline de ingesta con Kafka - Lopez"
+git push origin feature/ingesta-datos-lopez
+
+# Crear PR DENTRO del repo del proyecto:
+# → github.com/LIDER/repo-proyecto → "Compare & pull request"
+# → base: main | compare: feature/ingesta-datos-lopez
+# → El LÍDER del grupo revisa y aprueba el merge
+```
+
+---
+
+## C4. El líder del grupo gestiona el repo
 
 ```
-tu-proyecto-bigdata/
-├── README.md                    ← OBLIGATORIO: descripción completa
-│   ├── Problema
-│   ├── Objetivo
-│   ├── Arquitectura (imagen)
-│   ├── Stack tecnológico
-│   ├── Cómo ejecutar
-│   └── Integrantes
+Responsabilidades del líder:
+  - Revisar y mergear los PRs de los compañeros
+  - Mantener el README actualizado con el progreso
+  - Invitar al docente como colaborador (Settings → Collaborators)
+  - Crear tag de release para las sustentaciones EP y EF:
+    GitHub → Releases → "Create a new release"
+    Tag: v1.0-EP  (semana 4, sustentación EP)
+    Tag: v2.0-EF  (semana 8, sustentación EF)
+```
+
+---
+
+## C5. Estructura de carpetas del proyecto
+
+```
+bigdata-ua-[nombre-proyecto]-grupo[N]/
+├── README.md                      ← descripción completa del proyecto
 ├── notebooks/
-│   ├── 01_exploracion_EDA.ipynb      ← Semana 1-2
-│   ├── 02_pipeline_hadoop.ipynb      ← Semana 2-3
-│   ├── 03_nosql_mongodb.ipynb        ← Semana 3-4
-│   ├── 04_spark_processing.ipynb     ← Semana 5
-│   ├── 05_ml_modelo.ipynb            ← Semana 6
-│   ├── 06_scraping_datos.ipynb       ← Semana 7
-│   └── 07_dashboard_final.ipynb      ← Semana 8
+│   ├── 01_EDA_exploracion.ipynb       ← Semana 1-2: Análisis exploratorio
+│   ├── 02_pipeline_hadoop.ipynb       ← Semana 2-3: Procesamiento Hadoop/Spark
+│   ├── 03_nosql_mongodb.ipynb         ← Semana 3: Base de datos NoSQL
+│   ├── 04_spark_procesamiento.ipynb   ← Semana 5: Spark avanzado
+│   ├── 05_modelo_ml.ipynb             ← Semana 6: Modelo Machine Learning
+│   ├── 06_scraping_calidad.ipynb      ← Semana 7: Scraping y calidad de datos
+│   └── 07_dashboard_final.ipynb       ← Semana 8: Visualización final
 ├── src/
 │   ├── pipeline_ingesta.py
 │   ├── transformaciones.py
 │   └── modelo_ml.py
 ├── data/
-│   ├── README_datos.md              ← Explicación de los datos (no subir datos grandes)
-│   └── sample/                      ← Solo muestra pequeña (< 5MB)
+│   ├── README_datos.md                ← Descripción de los datos y links de descarga
+│   └── sample/                        ← Solo muestra pequeña (máximo 5MB)
 ├── docs/
-│   ├── arquitectura.drawio
-│   ├── presentacion_ep_semana4.pdf
-│   └── presentacion_ef_semana8.pdf
+│   ├── arquitectura.png               ← Diagrama de arquitectura del sistema
+│   ├── presentacion_EP_semana4.pdf    ← Slides sustentación EP
+│   └── presentacion_EF_semana8.pdf   ← Slides sustentación EF
 ├── .gitignore
 └── requirements.txt
 ```
 
-## Flujo de trabajo del grupo
+---
 
-```bash
-# Cada integrante trabaja en su propia rama:
-git checkout -b feature/modelo-ml-quispe
-git checkout -b feature/pipeline-ingesta-torres
-git checkout -b feature/dashboard-mamani
+## C6. Compartir el link del proyecto con el docente
 
-# Cuando terminas tu parte → PR al repo del proyecto:
-git push origin feature/modelo-ml-quispe
-# Crear PR → otro integrante revisa → merge
+Cada semana el líder debe actualizar el tracker de progreso en el README:
 
-# El líder es responsable de:
-# - Revisar y mergear los PRs del equipo
-# - Mantener el README actualizado
-# - Crear las releases para las sustentaciones
+```markdown
+## Progreso del Proyecto
+
+| Semana | Entregable | Responsable | Estado |
+|--------|-----------|-------------|--------|
+| S1 | EDA + Arquitectura propuesta | Lopez | ✅ Completado |
+| S2 | Pipeline Hadoop/Spark | Garcia | 🔄 En progreso |
+| S3 | Implementación MongoDB | Torres | ⬜ Pendiente |
+| S4 | **Sustentación EP** | Todos | ⬜ Pendiente |
+| S5 | Spark SQL + Streaming | Lopez | ⬜ Pendiente |
+| S6 | Modelo ML entrenado | Garcia | ⬜ Pendiente |
+| S7 | Scraping + Calidad datos | Torres | ⬜ Pendiente |
+| S8 | **Sustentación EF** | Todos | ⬜ Pendiente |
 ```
 
 ---
 
-# PARTE 6 — COMANDOS GIT ESENCIALES
+# SECCION D — COMANDOS DE EMERGENCIA
 
-## Comandos que usarás todos los días
-
+### "Git no detecta mis archivos nuevos" (git status dice nothing to commit)
 ```bash
-# ── Ver estado del repositorio ────────────────────────────────
-git status                      # ¿Qué cambié?
-git diff                        # ¿Qué líneas cambié exactamente?
-git log --oneline               # Historial de commits
-
-# ── Ramas ────────────────────────────────────────────────────
-git branch                      # Ver todas las ramas
-git checkout -b nueva-rama      # Crear y cambiar a nueva rama
-git checkout main               # Volver a main
-git branch -d rama-vieja        # Borrar rama local ya mergeada
-
-# ── Guardar cambios ───────────────────────────────────────────
-git add archivo.ipynb           # Agregar archivo específico
-git add .                       # Agregar todos los cambios
-git commit -m "mensaje"         # Guardar con mensaje
-git push origin mi-rama         # Subir a GitHub
-
-# ── Sincronizar ───────────────────────────────────────────────
-git pull upstream main          # Traer cambios del docente
-git fetch upstream              # Solo ver cambios (sin aplicar)
-
-# ── Deshacer ─────────────────────────────────────────────────
-git restore archivo.py          # Deshacer cambios en un archivo (NO committed)
-git revert HEAD                 # Deshacer el último commit (SAFE)
-# NUNCA usar: git reset --hard (borra trabajo sin aviso)
+# Problema: la carpeta está vacía — Git no rastrea carpetas vacías
+# Solución: crear un archivo dentro de la carpeta
+touch semana_01/Solucion_S1/apellido_nombre/.gitkeep
+git add .
+git commit -m "fix: agregar archivo para que Git rastree la carpeta"
 ```
 
-## Solución de problemas comunes
-
-### Problema: "Your branch is behind"
+### "Olvidé en qué rama estoy"
 ```bash
-git pull upstream main
-git push origin main
+git branch          # el asterisco (*) indica la rama activa
+git status          # también muestra la rama actual al inicio
 ```
 
-### Problema: Merge conflict
+### "Quiero deshacer cambios que aún NO hice commit"
 ```bash
-# Git marca los conflictos en el archivo:
+git restore nombre_archivo.ipynb    # deshacer cambios en un archivo
+git restore .                       # deshacer TODOS los cambios (cuidado)
+```
+
+### "El docente subió materiales nuevos pero yo ya estaba trabajando"
+```bash
+git stash                           # guardar mis cambios temporalmente
+git pull upstream main              # descargar los nuevos materiales
+git stash pop                       # recuperar mis cambios
+```
+
+### "Conflict: merge conflict"
+```bash
+# Git marca el conflicto en el archivo así:
 # <<<<<<< HEAD
-# Tu versión
+# Tu versión del código
 # =======
 # Versión del repo original
 # >>>>>>> upstream/main
-
-# Editar el archivo manualmente, elegir qué conservar
+#
+# Editar el archivo: eliminar las marcas y quedarte con la versión correcta
 # Luego:
-git add archivo_con_conflicto.py
-git commit -m "fix: resolver conflicto en archivo"
-```
-
-### Problema: "Nothing to commit"
-```bash
-# Verificar que guardaste el notebook:
-# Jupyter → File → Save (Ctrl+S)
-# Luego:
-git status   # debe mostrar los archivos modificados
-```
-
-### Problema: Subí información sensible (contraseña, API key)
-```bash
-# URGENTE: notificar al docente y:
-# 1. Cambiar la contraseña/key inmediatamente
-# 2. Agregar al .gitignore
-# 3. Hacer commit del .gitignore
-# NUNCA dejar credenciales en el repo
+git add archivo_con_conflicto
+git commit -m "fix: resolver conflicto de merge"
 ```
 
 ---
 
-# PARTE 7 — CONVENCIONES Y ESTÁNDARES
+# SECCION E — REFERENCIA RAPIDA
 
-## Nombres de ramas
+## Comandos diarios
+
+| Qué quiero hacer | Comando |
+|-----------------|---------|
+| Ver qué cambié | `git status` |
+| Ver historial | `git log --oneline` |
+| Crear rama nueva | `git checkout -b nombre-rama` |
+| Cambiar de rama | `git checkout nombre-rama` |
+| Ver mis ramas | `git branch` |
+| Preparar archivos | `git add .` |
+| Guardar | `git commit -m "mensaje"` |
+| Subir a GitHub | `git push origin mi-rama` |
+| Bajar del docente | `git pull upstream main` |
+| Bajar de mi fork | `git pull origin main` |
+
+## Formato de mensajes de commit
+
 ```
-semana-01-apellido          ← Lab semanal individual
-feature/nombre-feature      ← Feature del proyecto grupal
-fix/descripcion-bug         ← Corrección de errores
-hotfix/nombre               ← Corrección urgente
-```
-
-## Mensajes de commit
-```
-Formato: [TIPO][SEMANA] descripción breve - Apellido
-
-Tipos:
-  [S01]  → Lab de la semana
-  feat   → Nueva funcionalidad
-  fix    → Corrección de error
-  docs   → Documentación
-  style  → Formato (no lógica)
-  chore  → Mantenimiento
-
-Ejemplos correctos:
-  [S01] análisis tipos de datos completado - Quispe
-  [S03] feat: implementar CRUD MongoDB con índices - Torres
-  [S06] fix: corregir desbalance de clases en modelo ML - Mamani
-  docs: actualizar README con instrucciones de instalación
-
-Ejemplos INCORRECTOS:
-  cambios                    ← demasiado vago
-  TRABAJO SEMANA 3           ← sin formato
-  fix                        ← qué fijaste?
-  asdfjkl                    ← no describe nada
+[S01] lab completado - Lopez Maria           ← actividad semanal
+feat: implementar detección de fraude        ← nueva funcionalidad del proyecto
+fix: corregir error en pipeline de ingesta   ← corrección de bug
+docs: actualizar README con instrucciones    ← documentación
 ```
 
-## Estructura de un notebook profesional
-```python
-# ── Celda 1: Encabezado Markdown ──────────────────────────────
-"""
-# Título del Notebook
-## Semana N — Tema
-### Nombre | Fecha | Proyecto
-"""
+## Convención de nombres de ramas
 
-# ── Celda 2: Imports ──────────────────────────────────────────
-import pandas as pd
-# ... todos los imports juntos al inicio
-
-# ── Celda 3-N: Código por secciones ───────────────────────────
-# Cada sección con título Markdown explicando QUÉ y POR QUÉ
-
-# ── Última celda: Reflexión Markdown ──────────────────────────
-"""
-## Reflexión
-...
-"""
+```
+semana-01-lopez-maria          ← actividad individual semana 1
+semana-02-garcia-pedro         ← actividad individual semana 2
+feature/modelo-ml-torres       ← funcionalidad del proyecto grupal
+fix/error-conexion-mongodb     ← corrección en el proyecto
 ```
 
 ---
-
-# RESUMEN VISUAL — Una página para imprimir
 
 ```
 ╔══════════════════════════════════════════════════════════════╗
-║           FLUJO GIT SEMANAL — BIG DATA DD283                 ║
+║       FLUJO SEMANAL RESUMIDO — BIG DATA DD283                ║
 ╠══════════════════════════════════════════════════════════════╣
 ║                                                              ║
-║  INICIO DE SEMANA:                                           ║
-║  $ git checkout main                                         ║
-║  $ git pull upstream main        ← actualizar del docente    ║
-║  $ git checkout -b semana-N-tu-apellido  ← crear tu rama     ║
+║  INICIO:                                                     ║
+║  git checkout main                                           ║
+║  git pull upstream main        ← materiales del docente      ║
+║  git checkout -b semana-NN-apellido                          ║
 ║                                                              ║
-║  MIENTRAS TRABAJAS (hacer frecuentemente):                   ║
-║  $ git add .                                                 ║
-║  $ git commit -m "[S0N] lo que hiciste - Apellido"           ║
+║  TRABAJANDO:                                                 ║
+║  git add semana_0N/Solucion_SN/apellido/                     ║
+║  git commit -m "[S0N] descripcion - Apellido"                ║
 ║                                                              ║
-║  AL TERMINAR EL LAB:                                         ║
-║  $ git push origin semana-N-tu-apellido                      ║
-║  → Abrir github.com → "Compare & pull request"               ║
-║  → Completar el formulario del PR                            ║
-║  → Compartir el link con el docente                          ║
-║                                                              ║
-║  EL DOCENTE REVISA Y DA FEEDBACK EN EL PR                    ║
-║  → Leer los comentarios                                      ║
-║  → Corregir si pide cambios → git push (el PR se actualiza)  ║
-║  → El docente mergea cuando está OK ✅                        ║
+║  ENTREGA:                                                    ║
+║  git push origin semana-NN-apellido                          ║
+║  → GitHub → "Compare & pull request" → completar → Crear    ║
+║  → Compartir link del PR con el docente                      ║
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 ```
 
 ---
 
-*Universidad Autónoma del Perú | Big Data DD283 | 2026-1*  
-*Cualquier duda: abrir un Issue en el repositorio del curso*
+*Universidad Autónoma del Perú | Big Data DD283 | 2026-1*
+*Dudas: abrir un Issue en github.com/RubenCarty/bigdata-ua-2026-1*
